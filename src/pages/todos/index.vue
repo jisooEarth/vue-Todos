@@ -1,7 +1,16 @@
 <template>
   <div>
     <!-- <router-view /> -->
-    <h2>To-Do List</h2>
+    <div class="d-flex justify-content-between mb-3">
+      <h2>To-Do List</h2>
+      <button 
+        class="btn btn-primary"
+        @click="moveToCreatePage"
+      >
+          Create Todo
+      </button>
+    </div>
+    
     <input
       class="form-control"
       type="text"
@@ -10,10 +19,10 @@
       @keyup.enter="serchTodo"
     />
     <hr />
-    <TodoSimpleForm @add-todo="addTodo" />
+    <!-- <TodoSimpleForm @add-todo="addTodo" />
     <div style="color=red">{{ error }}</div>
     <div v-if="!todos.length">There is nothing to display</div>
-    <!-- {{ todos }} -->
+    {{ todos }} -->
     <TodoList
       :todos="todos"
       @toggle-todo="toggleTodo"
@@ -59,6 +68,11 @@
       </ul>
     </nav>
   </div>
+  <Toast 
+    v-if="showToast"
+    :message="toastMessage"
+    :type="toastAlertType"
+  />
 </template>
 
 <script>
@@ -66,21 +80,25 @@
 // :class="{ todo: todo.completed }" -> 클래스 바인딩(스타일 안에 선언 하고 위에서 스타일 객체 바인딩)
 // 변수 선언좀 제대로 해줬으면... props 할 때, <TodoList :보낼 이름="보낼 데이터/>
 import { ref, computed, watch } from "vue";
-import TodoSimpleForm from "@/components/TodoSimpleForm.vue";
+// import TodoSimpleForm from "@/components/TodoSimpleForm.vue";
 import TodoList from "@/components/TodoLIst.vue";
 // import { reactive } from 'vue';
 import axios from "axios";
+import Toast from '@/components/Toast.vue';
+import { useToast } from '@/composables/toast';
+import { useRouter } from 'vue-router';
 
 export default {
   components: {
-    TodoSimpleForm,
+    // TodoSimpleForm,
     TodoList,
+    Toast,
   },
 
   setup() {
     const toggle = ref(false);
     // const todo = ref('');
-
+    const router = useRouter();
     const todos = ref([]);
     const error = ref("");
     // const hasError=ref(false);
@@ -88,6 +106,13 @@ export default {
     const limit = 5;
     const currentPage = ref(1);
     const searchText = ref("");
+
+    const {
+      showToast,
+      toastMessage,
+      toastAlertType,
+      triggerToast,
+    } = useToast();
 
     const numberOfPages = computed(() => {
       return Math.ceil(numberOfTodos.value / limit);
@@ -106,6 +131,7 @@ export default {
       } catch (err) {
         console.log(err);
         error.value = "뭔가 잘못됐습니다!";
+        triggerToast('에러!', 'danger');
       }
     };
 
@@ -129,6 +155,7 @@ export default {
       } catch (err) {
         console.log(err);
         error.value = "뭔가 잘못됐습니다!";
+        triggerToast('에러!', 'danger');
       }
     };
 
@@ -141,6 +168,7 @@ export default {
       } catch (err) {
         console.log(err);
         error.value = "뭔가 잘못됐습니다!";
+        triggerToast('에러!', 'danger');
       }
     };
 
@@ -160,7 +188,14 @@ export default {
       } catch (err) {
         console.log(err);
         error.value = "뭔가 잘못됐습니다!";
+        triggerToast('에러!', 'danger');
       }
+    };
+
+    const moveToCreatePage = () => {
+      router.push({
+        name: 'TodoCreate',
+      })
     };
 
     let timeout = null;
@@ -175,14 +210,6 @@ export default {
       }, 2000);
     });
 
-    // const filteredTodos = computed(() => {
-    //   if (searchText.value) {
-    //     return todos.value.filter(todo => {
-    //       return todo.subject.includes(searchText.value);
-    //     });
-    //   }
-    //   return todos.value;
-    // });
 
     return {
       todos,
@@ -200,6 +227,10 @@ export default {
       currentPage,
       getTodos,
       serchTodo,
+      toastMessage,
+      toastAlertType,
+      showToast,
+      moveToCreatePage,
     };
   },
 };

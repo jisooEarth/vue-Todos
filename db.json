@@ -46,14 +46,14 @@
       "id": 15
     },
     {
-      "subject": "안뇽",
-      "completed": false,
-      "id": 16
-    },
-    {
       "subject": ":)",
       "completed": false,
       "id": 17
+    },
+    {
+      "subject": "향진이 생일 축하!",
+      "completed": true,
+      "id": 18
     }
   ]
 }
