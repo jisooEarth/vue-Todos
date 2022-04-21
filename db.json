@@ -47,13 +47,23 @@
     },
     {
       "subject": ":)",
-      "completed": false,
+      "completed": true,
       "id": 17
     },
     {
       "subject": "향진이 생일 축하!",
       "completed": true,
       "id": 18
+    },
+    {
+      "subject": "안녕",
+      "body": "",
+      "id": 19
+    },
+    {
+      "subject": "우유 사기",
+      "body": "오뚜기 안녕",
+      "id": 20
     }
   ]
 }
