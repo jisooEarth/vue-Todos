@@ -29,6 +29,12 @@
                         >
                         Cancle
                         </button>             -->
+                        <div 
+                            v-if="subjectError"
+                            class="text-red"
+                        >
+                            {{ subjectError }}
+                        </div>
                     </div>
                 </div>
             </div>
@@ -205,5 +211,8 @@ export default {
 </script>
 
 <style>
+    .text-red {
+        color: red;
+    }
 
 </style>
