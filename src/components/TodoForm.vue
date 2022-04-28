@@ -76,12 +76,14 @@
             </div>        
         </div> 
     </form>
-    <Toast
-        v-if="showToast"
-        :message="toastMessage"
-        :type="toastAlertType"
-    >
-    </Toast>
+    <transition name="fade">
+        <Toast
+            v-if="showToast"
+            :message="toastMessage"
+            :type="toastAlertType"
+        >
+        </Toast>
+    </transition>
 </template>
 
 <script>
@@ -169,7 +171,7 @@ export default {
                 let res;
                 const data = {
                         subject: todo.value.subject,
-                        completed: todo.value.complted,
+                        completed: todo.value.completed,
                         body: todo.value.body
                 }
                 if (props.editing) {
@@ -180,9 +182,10 @@ export default {
                     todo.value.subject = '';
                     todo.value.body = '';
                 }
-            const message = props.editing ? '수정' : '저장' + '이 완료되었습니다.'
+            const toastMessage = props.editing ? '수정' : '저장' + '이 완료되었습니다.'//수정이 가능함??? 저장하고 나면 바로 사라지자나??
+            //message를 toastMessage로 트리거토스트랑 변경했는데, 꼭 msessage로 써야하나? 나는 왜 똑같지 결과가??
              
-            triggerToast(message);
+            triggerToast(toastMessage);
           } catch (error) {
             console.log(error)
             triggerToast('Something went wrong!', 'danger');
@@ -214,5 +217,19 @@ export default {
     .text-red {
         color: red;
     }
-
+    .fade-enter-active,
+    .fade-leave-active{
+        transition: all 0.5s ease;
+    }
+    
+    .fade-enter-from,
+    .fade-leave-to{
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+    .fade-enter-to,
+    .fade-leave-from{
+        opacity: 1;
+        transform: translateY(0px);
+    }
 </style>
