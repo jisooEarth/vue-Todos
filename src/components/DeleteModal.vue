@@ -1,7 +1,7 @@
 <template>  
 <div>
     <Modal>
-        <template v-slot:title>
+        <template #title>
             Delete Todo!
         </template>
         <template v-slot:body>
