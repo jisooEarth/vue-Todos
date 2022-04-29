@@ -8,7 +8,12 @@
     >
         <div class="row">
             <div class="col-6">
-                <div class="form-group">
+                <Input 
+                    label="Subject"
+                    v-model:subject="todo.subject"
+                    :error="subjectError"
+                />
+                <!-- <div class="form-group">
                 <label>Subject</label>
                     <div>
                         <input 
@@ -16,7 +21,7 @@
                         type="text" 
                         class="form control"
                         >
-                        <!-- <button 
+                        <button 
                         type = "submit" 
                         class="btn btn-primary"
                         :disabled="!todoUpdated"
@@ -28,7 +33,7 @@
                         @click="moveToTodoListPage"
                         >
                         Cancle
-                        </button>             -->
+                        </button>             
                         <div 
                             v-if="subjectError"
                             class="text-red"
@@ -36,7 +41,7 @@
                             {{ subjectError }}
                         </div>
                     </div>
-                </div>
+                </div> -->
             </div>
             <div v-if="editing" class="col-6">
                 <div class="form-group">
@@ -93,9 +98,12 @@ import { ref, computed } from '@vue/reactivity'
 import _ from 'lodash'
 import Toast from '@/components/Toast.vue'
 import {useToast} from '@/composables/toast'
+import Input from '@/components/Input.vue';
+
 export default {
     components: {
-      Toast
+      Toast,
+      Input,
     },
     props: {
         editing: {
@@ -115,6 +123,10 @@ export default {
         const router = useRouter();
         const route = useRoute();
         const todoId = route.params.id;
+
+        // const updateTodoSubject = (newValue) => {
+        //     todo.value.subject = newValue;
+        // };
         
         
         // const showToast = ref(false)
@@ -208,15 +220,16 @@ export default {
             toastMessage,
             toastAlert,
             subjectError,
+            // updateTodoSubject,
         }
     }
 }
 </script>
 
 <style>
-    .text-red {
+    /* .text-red {
         color: red;
-    }
+    } */
     .fade-enter-active,
     .fade-leave-active{
         transition: all 0.5s ease;
